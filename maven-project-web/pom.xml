@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.maven.project</groupId>
+		<artifactId>maven-project</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<groupId>com.maven.project</groupId>
+	<artifactId>maven-project-web</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+	<name>maven-project-web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<!-- 项目基础属性设置 -->
+	<properties>
+		<!-- 字符集 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<package.environment>test</package.environment>
+		<spring.version>3.2.10.RELEASE</spring.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>test</id>
+			<properties>
+				<package.environment>test</package.environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>www</id>
+			<properties>
+				<package.environment>www</package.environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>dohko</id>
+			<properties>
+				<package.environment>dohko</package.environment>
+			</properties>
+		</profile>
+	</profiles>
+
+	<!-- 编译配置 -->
+	<build>
+		<finalName>maven-project-web</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>ROOT</warName>
+					<webXml>${basedir}/WebRoot/WEB-INF/web.xml</webXml>
+					<failOnMissingWebXml>true</failOnMissingWebXml>
+					<filters>
+						<filter>${basedir}/src/main/resources/propertiesConfig/${package.environment}.properties</filter>
+					</filters>
+					<webResources>
+						<resource>
+							<directory>${basedir}/WebRoot</directory>
+							<includes>
+								<include>**/*.*</include>
+							</includes>
+						</resource>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/resources</directory>
+							<excludes>
+								<exclude>propertiesConfig/*.*</exclude>
+							</excludes>
+							<targetPath>WEB-INF/classes</targetPath>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.2.v20120308</version>
+				<configuration>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+					<war>${project.build.directory}/${project.build.finalName}.war</war>
+					<webAppSourceDirectory>${basedir}/WebRoot</webAppSourceDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.maven.project</groupId>
+			<artifactId>maven-project-tools</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.maven.project</groupId>
+			<artifactId>maven-project-services</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+</project>
