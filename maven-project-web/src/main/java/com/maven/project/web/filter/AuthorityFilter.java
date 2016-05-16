@@ -1,6 +1,7 @@
 package com.maven.project.web.filter;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -27,6 +28,13 @@ public class AuthorityFilter implements Filter {
 		//获取请求地址
         String url = req.getServletPath();
         System.out.println("===========url==========="+url);
+        
+        @SuppressWarnings("unchecked")
+		Map<String, String[]> map=req.getParameterMap();
+        for (Map.Entry<String, String[]> entry : map.entrySet()) {
+            System.out.println("请求参数===========" + entry.getKey() + " = " + entry.getValue()[0]);
+        }
+        
         if(UrlVerification.urlList.contains(url)){
         	chain.doFilter(request, response);
 			return ;
