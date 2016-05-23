@@ -25,4 +25,8 @@
 		<!-- <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
 	</context:component-scan>
 	
+	<bean id="infoConfig" class="com.maven.project.tools.model.InfoConfig">
+		<property name="redisHost" value="${redis.host}"/>
+		<property name="redisPort" value="${redis.port}"/>
+	</bean>
 </beans>

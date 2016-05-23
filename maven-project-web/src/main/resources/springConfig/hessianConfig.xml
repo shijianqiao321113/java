@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+       ">
+
+	<bean id="taxpayerTaxofficeHessianService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="${env.joojee.taxtongTaxpayer.server_url}" />
+		<property name="serviceInterface"
+			value="com.joojee.taxtong.osb.hessian.service.TaxpayerTaxofficeHessianService" />
+	</bean>
+
+</beans>

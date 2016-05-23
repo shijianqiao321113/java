@@ -1,4 +1,4 @@
-package com.maven.project.web.jmsMessageSender;
+package com.maven.project.tools.utils;
 
 /**
  * jms activemq 发送消息队列名称类
@@ -7,5 +7,6 @@ package com.maven.project.web.jmsMessageSender;
  */
 public class SenderMessageQueueName {
 	
+	/** 测试队列名称 */
 	public static final String JMS_TEST_SEND_MESSAGE_QUEUE="test_queue";
 }

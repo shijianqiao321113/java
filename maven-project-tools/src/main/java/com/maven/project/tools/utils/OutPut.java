@@ -1,4 +1,4 @@
-package com.maven.project.tools.responsecontent;
+package com.maven.project.tools.utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;

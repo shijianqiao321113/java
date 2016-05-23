@@ -1,4 +1,4 @@
-package com.maven.project.tools.urlfileter;
+package com.maven.project.tools.utils;
 
 import java.util.ArrayList;
 

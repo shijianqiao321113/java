@@ -8,12 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.maven.project.services.UserOperServices;
-import com.maven.project.web.AsyncTest;
+import com.maven.project.tools.redis.JredisOper;
+import com.maven.project.tools.utils.RedisKeyName;
+import com.maven.project.tools.utils.SenderMessageQueueName;
 import com.maven.project.web.jmsMessageSender.MessageSender;
-import com.maven.project.web.jmsMessageSender.SenderMessageQueueName;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 @Controller
 @RequestMapping("/user")
@@ -26,10 +24,8 @@ public class UserLoginAction {
 	private MessageSender messageSender;
 	
 	@Autowired
-	private JedisPool jedisPool;
+	private JredisOper jredisOper;
 	
-	@Autowired
-	private AsyncTest asyncTest;
 	/**
 	* @Title: login 
 	* @Description: 用户登录 
@@ -44,14 +40,7 @@ public class UserLoginAction {
 		
 		messageSender.sendTextMessage(SenderMessageQueueName.JMS_TEST_SEND_MESSAGE_QUEUE,(int)(Math.random()*9000)+1000+"abc");
 		
-		Jedis jedis = jedisPool.getResource();
-		try{
-			jedis.set((int)(Math.random()*9000)+1000+"",System.currentTimeMillis()+"");
-		}finally{
-			jedisPool.returnResource(jedis);
-		}
-		
-		asyncTest.initAsync();
+		jredisOper.pubLish_Message(RedisKeyName.SUBSCR+RedisKeyName.UNDERLINE+1002,"0123cccc");
 		
 		userOperServices.login(request, response);
 	}

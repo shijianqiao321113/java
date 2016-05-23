@@ -1,26 +1,34 @@
 package com.maven.project.tools.redis;
 
+import java.util.List;
+
+/**
+ * redis 操作类，方法汇总
+ */
 public interface JredisOper {
 	
-//	public int get
+	/** 通用方法 */
+	public long getTtl(String key);
 	
 	public boolean isExists(String key);
 	
+	public boolean delData(String key);
+	
+	
+	/** string 相关方法 */
 	public boolean setValue_str(String key,String value);
 	
-	public boolean setValue_str_expire(String key,String value,long second);
+	public boolean setValue_str_expire(String key,String value,int second);
 	
 	public boolean setValue_str_expireAt(String key,String value,long ten_timestamp);
 	
 	public String getValue_str(String key);
 	
 	
-	public boolean delData(String key);
-	
-	
+	/** hash 相关方法  */
 	public boolean setValue_hs(String key,String field,String value);
 	
-	public boolean setValue_hs_expire(String key,String field,String value,long second);
+	public boolean setValue_hs_expire(String key,String field,String value,int second);
 	
 	public boolean setValue_hs_expireAt(String key,String field,String value,long ten_timestamp);
 	
@@ -31,25 +39,30 @@ public interface JredisOper {
 	public int getHlen_hs(String key);
 	
 	
-	public boolean startRpush_list(String key,String value);
+	/** list 相关方法  */
+	public boolean Rpush_list(String key,String value);
 	
-	public boolean startRpush_list_expire(String key,String value,long second);
+	public boolean Rpush_list_expire(String key,String value,int second);
 	
-	public boolean startRpush_list_expireAt(String key,String value,long ten_timestamp);
-	
-	public boolean endLpush_list(String key,String value);
-	
-	public boolean endLpush_list_expire(String key,String value,long second);
-	
-	public boolean endLpush_list_expireAt(String key,String value,long ten_timestamp);
-	
-	public String getValue_list_lpop(String key);
+	public boolean Rpush_list_expireAt(String key,String value,long ten_timestamp);
 	
 	public String getValue_list_rpop(String key);
+	
+	public boolean Lpush_list(String key,String value);
+	
+	public boolean Lpush_list_expire(String key,String value,int second);
+	
+	public boolean Lpush_list_expireAt(String key,String value,long ten_timestamp);
+	
+	public String getValue_list_lpop(String key);
 	
 	public boolean delData_list_lrem(String key,String value);
 	
 	public int getLlen_list(String key);
 	
+	public List<String> getLrange_list(String key);
+	
+	/** redis 消息发布 */
+	public boolean pubLish_Message(String channel,String message);
 	
 }
