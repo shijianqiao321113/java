@@ -11,7 +11,7 @@ import com.maven.project.services.UserOperServices;
 import com.maven.project.tools.redis.JredisOper;
 import com.maven.project.tools.utils.RedisKeyName;
 import com.maven.project.tools.utils.SenderMessageQueueName;
-import com.maven.project.web.jmsMessageSender.MessageSender;
+import com.maven.project.web.jmsMessageOper.MessageSender;
 
 @Controller
 @RequestMapping("/user")

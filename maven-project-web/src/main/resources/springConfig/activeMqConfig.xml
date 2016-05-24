@@ -38,7 +38,7 @@
 	<!-- 消息消费者 start-->
 	
 	<!-- 定义Queue监听器  -->
-<!--<bean id="testMessageReceiver" class="com.maven.project.web.jmsMessageListener.TestMonitorQueue"/>
+<!--<bean id="testMessageReceiver" class="com.maven.project.web.jmsMessageOper.TestMonitorQueue"/>
 	<jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
 		<jms:listener destination="${jms_test_monitor_data_queue}" ref="testMessageReceiver"/>
 	</jms:listener-container> -->
@@ -52,7 +52,7 @@
 	<!-- 定义activme 队列监听 -->
 	<!-- 对应的监听类, implements MessageListener onMessage -->
 	<!-- org.springframework.jms.listener.SimpleMessageListenerContainer -->
-	<bean id="testMessageReceiver" class="com.maven.project.web.jmsMessageListener.TestMonitorQueue"/>  
+	<bean id="testMessageReceiver" class="com.maven.project.web.jmsMessageOper.TestMonitorQueue"/>  
  	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="destinationName" value="${jms_test_monitor_data_queue}"/>

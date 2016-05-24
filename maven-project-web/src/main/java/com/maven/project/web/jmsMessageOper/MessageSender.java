@@ -1,4 +1,4 @@
-package com.maven.project.web.jmsMessageSender;
+package com.maven.project.web.jmsMessageOper;
 
 import java.io.Serializable;
 import java.util.Map;

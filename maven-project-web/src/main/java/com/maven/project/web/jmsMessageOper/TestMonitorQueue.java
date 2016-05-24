@@ -1,4 +1,4 @@
-package com.maven.project.web.jmsMessageListener;
+package com.maven.project.web.jmsMessageOper;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

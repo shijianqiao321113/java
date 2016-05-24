@@ -10,7 +10,10 @@
 		<param-value>
 			classpath:/springConfig/applicationContext.xml,
 			classpath:/springConfig/activeMqConfig.xml,
-			classpath:/springConfig/redisConfig.xml
+			classpath:/springConfig/redisConfig.xml,
+			classpath:/springConfig/hessianConfig.xml,
+			classpath:/springConfig/mina2Config.xml,
+			classpath:/springConfig/nettyConfig.xml
 		</param-value>
 	</context-param>
 
