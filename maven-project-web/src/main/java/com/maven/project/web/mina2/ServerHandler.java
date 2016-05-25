@@ -16,7 +16,6 @@ public class ServerHandler extends IoHandlerAdapter {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 		System.out.println("===============sessionOpened=============");
-//		session.getConfig().setIdleTime(IdleStatus.BOTH_IDLE,60);  
 	}
 
 	/**当连接被关闭时触发，例如客户端程序意外退出等等*/

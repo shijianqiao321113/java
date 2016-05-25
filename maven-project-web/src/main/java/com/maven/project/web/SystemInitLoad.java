@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.maven.project.tools.model.InfoConfig;
 import com.maven.project.web.jedisPubSubListener.JedisPubSubLis;
 import com.maven.project.web.jedisPubSubListener.SubscribeQueueThread;
+import com.maven.project.web.netty4.NettyServer;
 
 @Controller
 public class SystemInitLoad {
@@ -25,5 +26,8 @@ public class SystemInitLoad {
 	public void initMethod(){
 		/** 启动redis消息订阅 监听 */
 		taskExecutor.execute(new SubscribeQueueThread(jedisPubSubLis,infoConfig));
+		
+		/** 启动 netty servre*/
+		taskExecutor.execute(new NettyServer());
 	}
 }

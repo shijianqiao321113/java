@@ -26,7 +26,12 @@
 	</context:component-scan>
 	
 	<bean id="infoConfig" class="com.maven.project.tools.model.InfoConfig">
+		<!-- redis -->
 		<property name="redisHost" value="${redis.host}"/>
 		<property name="redisPort" value="${redis.port}"/>
+		
+		<!-- netty -->
+		<property name="nettyHost" value="${netty.server.host}"/>
+		<property name="nettyPort" value="${netty.server.port}"/>
 	</bean>
 </beans>
