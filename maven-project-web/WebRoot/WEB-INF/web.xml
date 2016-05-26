@@ -12,8 +12,7 @@
 			classpath:/springConfig/activeMqConfig.xml,
 			classpath:/springConfig/redisConfig.xml,
 			classpath:/springConfig/hessianConfig.xml,
-			classpath:/springConfig/mina2Config.xml,
-			classpath:/springConfig/nettyConfig.xml
+			classpath:/springConfig/mina2Config.xml
 		</param-value>
 	</context-param>
 
