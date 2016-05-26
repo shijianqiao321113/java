@@ -2,9 +2,12 @@ package com.maven.project.web.netty4;
 
 import java.nio.charset.Charset;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
-import com.maven.project.tools.model.InfoConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -13,46 +16,54 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 
-public class NettyServer implements Runnable{
+@Controller
+public class NettyServer {
 	
+	/** 用于分配处理业务线程的线程组个数 */
+	static final int BIZGROUPSIZE = Runtime.getRuntime().availableProcessors() * 2; // 默认
+	/** 业务出现线程大小 */
+	static final int BIZTHREADSIZE = 8;
+	static final EventLoopGroup bossGroup = new NioEventLoopGroup(BIZGROUPSIZE);
+	static final EventLoopGroup workerGroup = new NioEventLoopGroup(BIZTHREADSIZE);
+
+	@Value("${netty.server.host}")
+	String host;
+	
+	@Value("${netty.server.port}")
+	String port;
+
 	@Autowired
-	private InfoConfig infoConfig;
-	
-	public void run() {
-		/**用于分配处理业务线程的线程组个数 */
-		final int BIZGROUPSIZE = Runtime.getRuntime().availableProcessors()*2;	//默认 Cpu*2
-		/** 业务出现线程大小*/
-		final int BIZTHREADSIZE = 8;
-		final EventLoopGroup bossGroup = new NioEventLoopGroup(BIZGROUPSIZE);
-		final EventLoopGroup workerGroup = new NioEventLoopGroup(BIZTHREADSIZE);
-		try{
+	private NettyServerHandler nettyServerHandler;
+
+	@PostConstruct
+	public void init() {
+		try {
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, workerGroup);
 			b.channel(NioServerSocketChannel.class);
 			b.childHandler(new ChannelInitializer<SocketChannel>() {
-				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline pipeline = ch.pipeline();
-					pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
-					pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 					pipeline.addLast("decoder", new NettyServerDecoder(Charset.defaultCharset()));
 					pipeline.addLast("encoder", new NettyServerEncode(Charset.defaultCharset()));
-					pipeline.addLast("idleStateHandler", new IdleStateHandler(20, 20, 10)); //心跳监测 读超时为20s，写超时为20s 全部空闲时间10s
-					pipeline.addLast(new NettyServerHandler());
+					pipeline.addLast("idleStateHandler", new IdleStateHandler(20, 20, 10)); // 心跳监测 ,读超时为20s，写超时为20s,全部空闲时间10s
+					pipeline.addLast(nettyServerHandler);
 				}
 			});
-			b.bind(infoConfig.getNettyHost(),infoConfig.getRedisPort()).sync();
-			System.out.println("Netty tcp 服务器启动成功");
-		}catch(Exception ex){
+			b.bind(this.host,Integer.parseInt(this.port)).sync();
+			System.out.println("Netty tcp 服务器启动成功,======"+this.host+":"+this.port);
+		} catch (Exception ex) {
 			System.out.println("Netty tcp 服务器已启动异常");
 			ex.printStackTrace();
-		}finally{
-			workerGroup.shutdownGracefully();
-			bossGroup.shutdownGracefully();
+			Destroy();
 		}
+	}
+	
+	@PreDestroy
+	public void Destroy(){
+		workerGroup.shutdownGracefully();
+		bossGroup.shutdownGracefully();
 	}
 }

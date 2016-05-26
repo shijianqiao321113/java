@@ -1,21 +1,34 @@
 package com.maven.project.web.netty4;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.maven.project.tools.redis.JredisOper;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class NettyServerHandler extends SimpleChannelInboundHandler<Object> {
-
+@Controller
+public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+	
 	@Autowired
 	private JredisOper jredisOper;
-	
+
 	@Override
-	protected void channelRead0(ChannelHandlerContext paramChannelHandlerContext, Object paramI) throws Exception {
-		System.out.println("=================channelRead0======================");
-		jredisOper.setValue_str(Math.random()*9000+"", Math.random()*9000+"");
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		System.out.println("Server received: " + msg);
+		ctx.write(msg);
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+		ctx.flush();
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		cause.printStackTrace();
+		ctx.close();
 	}
 
 }
