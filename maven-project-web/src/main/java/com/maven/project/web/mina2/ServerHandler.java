@@ -44,7 +44,7 @@ public class ServerHandler extends IoHandlerAdapter {
 	/**当接收到客户端的请求信息后触发此方法*/
 	@Override
 	public void messageReceived(IoSession session, Object message) throws Exception {
-		System.out.println("===============messageReceived=============");
+		System.out.println("===============messageReceived============="+message);
 	}
 
 	/**当信息已经传送给客户端后触发此方法*/
