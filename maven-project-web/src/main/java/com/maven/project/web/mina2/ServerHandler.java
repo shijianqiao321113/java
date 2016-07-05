@@ -45,6 +45,7 @@ public class ServerHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object message) throws Exception {
 		System.out.println("===============messageReceived============="+message);
+		session.write("============"+message+"==============="+Math.random());
 	}
 
 	/**当信息已经传送给客户端后触发此方法*/

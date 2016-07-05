@@ -17,7 +17,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		System.out.println("Server received: " + msg);
-		ctx.write(msg);
+		ctx.write("======"+msg+"======"+Math.random());
 	}
 
 	@Override
@@ -30,5 +30,4 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 		cause.printStackTrace();
 		ctx.close();
 	}
-
 }
