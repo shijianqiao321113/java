@@ -16,7 +16,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
 @Controller
@@ -48,7 +47,7 @@ public class NettyServer {
 				public void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline pipeline = ch.pipeline();
 					pipeline.addLast("decoder", new NettyServerDecoder(Charset.defaultCharset()));
-					pipeline.addLast("encoder", new StringEncoder(Charset.defaultCharset())); 
+					pipeline.addLast("encoder", new NettyServerEncoder(Charset.defaultCharset())); 
 					pipeline.addLast("idleStateHandler", new IdleStateHandler(20, 20, 10)); // 心跳监测 ,读超时为20s，写超时为20s,全部空闲时间10s
 					pipeline.addLast(nettyServerHandler);
 				}
