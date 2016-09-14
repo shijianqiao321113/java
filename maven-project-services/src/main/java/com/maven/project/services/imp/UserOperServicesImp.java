@@ -3,6 +3,7 @@ package com.maven.project.services.imp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -11,10 +12,13 @@ import com.maven.project.tools.utils.OutPut;
 
 @Service
 public class UserOperServicesImp implements UserOperServices {
+	
+	@Value("${jms_url}")
+	private String url;
 
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println("=====================login================");
+		System.out.println("=====================login================url"+url);
 		
 		JSONObject result=new JSONObject();
 		result.put("resultCode","00000");

@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
-        ">
+    	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd" >
 	<!-- jedis pool配置 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxActive" value="20" /><!-- 最大的活跃连接的数量 -->

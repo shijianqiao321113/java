@@ -16,12 +16,11 @@
          </property>
     </bean>
 	
-	<context:component-scan base-package="com.maven.project">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan>
+	<context:component-scan base-package="com.maven.project"></context:component-scan>
 	
-	<!-- 定时任务 @Scheduled(cron="0 * * * * *") -->
-	<task:annotation-driven/>
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
 	
 	<!-- 线程池 -->
 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">   
