@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd" >
+	<!-- jedis pool配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="20" /><!-- 最大的活跃连接的数量 -->
+		<property name="maxIdle" value="64" /><!-- 最大的闲置连接的数量,当大于最大的闲置数量时，会被连接池主动销毁 -->
+		<property name="minIdle" value="16" /><!-- 最小的闲置连接的数量,当连接池中小于最小的闲置数量时，会创建新的连接对象 -->
+		<property name="maxWait" value="1000" /><!--最大等待时间-->
+		<property name="testOnBorrow" value="true" /><!--对拿到的connection进行validateObject校验-->
+		<property name="testOnReturn" value="false" /><!--在进行returnObject对返回的connection进行validateObject校验-->
+		<property name="testWhileIdle" value="true" /><!--定时对线程池中空闲的链接进行validateObject校验-->
+		<property name="whenExhaustedAction" value="0" /> <!-- 当client想连接池请求连接时，没有可用的对象时，连接池采用的策略,2表示WHEN_EXHAUSTED_GROW，表明当连接耗尽时，池会主动create一个新的连接-->
+	</bean>
+
+	<!-- 链接榜单信息redis配置 -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="127.0.0.1" />
+		<constructor-arg index="2" value="6379" />
+	</bean>
+	
+	<!-- redis分布式 -->
+	<!-- <bean id="jedisIPList" class="com.joojee.newtaxtong.common.model.RedisIPList">
+		<property name="list" >
+			<list>
+				<bean id="jedisShard"  class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg index="0" value="${env.redis.host}" />
+					<constructor-arg index="1" value="${env.redis.port}" />
+				</bean>
+				<bean id="jedisShard2"  class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg index="1" value="${env.redis.host2}" />
+					<constructor-arg index="2" value="${env.redis.port2}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" ref="jedisIPList" />
+	</bean> -->
+</beans>
