@@ -27,14 +27,36 @@
 	<!-- 日志过滤器 -->
 	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />
 	
+	<!-- 心跳检测filter
+    <bean id="keepAliveFilter" class="org.apache.mina.filter.keepalive.KeepAliveFilter">
+       	 构造函数的第一个参数传入自己实现的工厂
+        <constructor-arg>
+            <bean class="com.maven.project.web.mina2.MyKeepAliveMessageFactory"/>
+        </constructor-arg>
+       	 第二个参数需要的是IdleStatus对象，value值设置为读写空闲
+        <constructor-arg type = "org.apache.mina.core.session.IdleStatus" value="BOTH_IDLE" >
+       </constructor-arg>
+       	 心跳频率，不设置则默认60s 
+        <property name="requestInterval" value="5" />
+                     心跳超时时间，不设置则默认30s   
+        <property name="requestTimeout" value="10" />
+                     不设置默认false
+        <property name="forwardEvent" value="true" />
+    </bean> -->
+	
 	<!-- 过滤器链 -->
 	<bean id="filterChainBuilder" class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
 		<property name="filters">
 			<map>
+			  	<!--mina自带的线程池filter-->
 				<entry key="executor" value-ref="executorFilter" />
 				<entry key="mdcInjectionFilter" value-ref="mdcInjectionFilter" />
+				<!--自己实现的编解码器filter-->
 				<entry key="codecFilter" value-ref="codecFilter" />
+				<!--日志的filter-->
 				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<!-- 心跳filter
+                <entry key="keepAliveFilter" value-ref="keepAliveFilter" /> -->
 			</map>
 		</property>
 	</bean>
