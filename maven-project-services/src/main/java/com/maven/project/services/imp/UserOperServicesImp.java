@@ -28,4 +28,10 @@ public class UserOperServicesImp implements UserOperServices {
 		return;
 	}
 
+	@Override
+	public void aa(String str) {
+		System.out.println("==============="+str);
+		
+	}
+
 }

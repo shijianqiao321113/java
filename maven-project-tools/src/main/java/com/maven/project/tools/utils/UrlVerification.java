@@ -11,5 +11,6 @@ public class UrlVerification {
     static{
     	urlList.add("/index.jsp");
     	urlList.add("/user/login.json");
+    	urlList.add("/user/jsonp.json");
     }
 }

@@ -12,7 +12,8 @@
 			classpath:/springConfig/activeMqConfig.xml,
 			classpath:/springConfig/redisConfig.xml,
 			classpath:/springConfig/hessianConfig.xml,
-			classpath:/springConfig/mina2Config.xml
+			classpath:/springConfig/mina2Config.xml,
+			classpath:/springConfig/webservice-cxf.xml
 		</param-value>
 	</context-param>
 
@@ -67,8 +68,7 @@
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>
-			org.springframework.web.util.IntrospectorCleanupListener
-		</listener-class>
+			org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
 	<!-- spring mvc 转发请求 -->
@@ -85,6 +85,28 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.json</url-pattern>
 	</servlet-mapping>
+
+	<!-- 所有来自/cxfservices/*的请求，都交给CXFServlet处理 -->
+	<servlet>
+		<servlet-name>cxf</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cxf</servlet-name>
+		<url-pattern>/webserviceCXF/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- 所有来自/webserviceAxis/*的请求，都交给AxisServlet处理 -->
+	<!-- <servlet>
+		<servlet-name>axis</servlet-name>
+		<servlet-class>org.apache.axis2.transport.http.AxisServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>axis</servlet-name>
+		<url-pattern>/webserviceAxis/*</url-pattern>
+	</servlet-mapping> -->
 
 	<!-- 欢迎文件列表 -->
 	<welcome-file-list>

@@ -15,4 +15,6 @@ public interface UserOperServices {
 	* void
 	 */
 	public void login(HttpServletRequest request,HttpServletResponse response);
+	
+	public void aa(String str);
 }

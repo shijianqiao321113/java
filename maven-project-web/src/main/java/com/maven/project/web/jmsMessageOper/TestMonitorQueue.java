@@ -6,7 +6,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 public class TestMonitorQueue implements MessageListener {
-
+	
 	public void onMessage(Message message) {
 		if (message instanceof TextMessage) {
 			TextMessage textMessage = (TextMessage) message;

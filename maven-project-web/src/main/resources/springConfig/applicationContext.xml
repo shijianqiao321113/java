@@ -17,10 +17,17 @@
              <value>classpath:propertiesConfig/test.properties</value>
          </property>
     </bean>
+    
+    <!-- 配置扫描注解,不扫描@Controller注解 -->
+    <context:component-scan base-package="com.maven.project">
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
 	
 	<bean id="infoConfig" class="com.maven.project.tools.model.InfoConfig">
 		<!-- redis -->
 		<property name="redisHost" value="${redis.host}"/>
 		<property name="redisPort" value="${redis.port}"/>
 	</bean>
+	
+	
 </beans>

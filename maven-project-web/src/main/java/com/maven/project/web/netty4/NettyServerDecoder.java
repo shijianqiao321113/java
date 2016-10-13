@@ -22,17 +22,23 @@ public class NettyServerDecoder extends ByteToMessageDecoder {
 		if (in.readableBytes() < HANDLENGTH) {
 			return ;
 		}
-		byte[] sizeBytes = new byte[HANDLENGTH];
-		in.markReaderIndex();// 标记当前位置，以便reset
-		in.readBytes(sizeBytes, 0, HANDLENGTH);// 读取4字节
-		int size = Integer.parseInt(new String(sizeBytes, this.charset));
-		in.resetReaderIndex();
-		if (size > in.readableBytes()) {// 如果消息内容不够，则重置，相当于不读取size
-			return ;// 父类接收新数据，以拼凑成完整数据
-		} else {
-			byte[] bytes = new byte[size];
-			in.readBytes(bytes, 0, size);
-			out.add(new String(bytes, this.charset));
+		try{
+			byte[] sizeBytes = new byte[HANDLENGTH];
+			in.markReaderIndex();// 标记当前位置，以便reset
+			in.readBytes(sizeBytes, 0, HANDLENGTH);// 读取4字节
+			int size = Integer.parseInt(new String(sizeBytes, this.charset));
+			in.resetReaderIndex();
+			if (size > in.readableBytes()) {// 如果消息内容不够，则重置，相当于不读取size
+				return ;// 父类接收新数据，以拼凑成完整数据
+			} else {
+				byte[] bytes = new byte[size];
+				in.readBytes(bytes, 0, size);
+				out.add(new String(bytes, this.charset));
+				return ;
+			}
+		}catch(Exception ex){
+			System.out.println("====netty====="+ex);
+			ctx.channel().close();
 			return ;
 		}
 	}

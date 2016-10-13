@@ -1,5 +1,7 @@
 package com.maven.project.web.action;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSONObject;
 import com.maven.project.services.UserOperServices;
 import com.maven.project.tools.redis.JredisOper;
 import com.maven.project.tools.utils.RedisKeyName;
@@ -43,5 +46,30 @@ public class UserLoginAction {
 		jredisOper.pubLish_Message(RedisKeyName.SUBSCR+RedisKeyName.UNDERLINE+1002,"0123cccc");
 		
 		userOperServices.login(request, response);
+	}
+	
+	
+	@RequestMapping("/jsonp")
+	public void jsonp(HttpServletRequest request,HttpServletResponse response){
+			
+		String callback = request.getParameter("callback");
+		
+		
+		System.out.println("======================================"+callback);
+		
+		JSONObject obj =new JSONObject();
+		obj.put("code","99999");
+		obj.put("info","success");
+		JSONObject o=new JSONObject();
+		o.put("aa", 11);
+		o.put("bb", 22);
+		obj.put("resultData",o);
+		
+		try {
+			response.getWriter().write(callback+"("+obj.toString()+")");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return;
 	}
 }
