@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>ajax jsonp </title>
+<script src="jquery-1.8.3.min.js"></script>
+
+<script type="text/javascript">
+
+	$(function() {
+		$.ajax({  
+			type : "post",
+			url : "http://192.168.1.81:7001/api/l/taxpayer/forward/AN/sscx2/get/taxpayerJBXX.json?accessToken=E4DCD63BDC7F42FCEFD831D282A1204D&taxpayerNumber=112222222222&oauth_consumer_key=77d5f59d0cf0497dc87e3f5854b0d5ee&djxh=11111111111",
+			dataType : "jsonp",
+			jsonp: "callback",
+			success : function(data){  
+				alert(data.code);
+			},  
+			error:function(){  
+				alert("error");  
+			}  
+		});
+	});
+
+</script>
+</head>
+
+<body>
+
+	<a href="javascript:fun();" style="font-size:30px;">
+		点击 ajax 跨域调用
+	</a>
+</body>
+</html>
