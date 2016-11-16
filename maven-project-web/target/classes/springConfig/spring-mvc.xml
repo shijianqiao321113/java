@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-4.1.xsd   
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-4.1.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-4.1.xsd   
+           http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.1.xsd ">
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="locations">
+             <value>classpath:propertiesConfig/test.properties</value>
+         </property>
+    </bean>
+	
+	<!-- 扫描@Controller注解 -->
+	<context:component-scan base-package="com.maven.project">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- spring aop 扫描 -->
+	<aop:aspectj-autoproxy expose-proxy="true"></aop:aspectj-autoproxy>
+	
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+	
+	<!-- 线程池 -->
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">   
+		<!-- 线程池维护线程的最少数量 -->
+	    <property name="corePoolSize" value="10" />   
+	     <!-- 线程池维护线程所允许的空闲时间 -->
+	    <property name ="keepAliveSeconds" value ="300" /> 
+	    <!-- 线程池维护线程的最大数量 -->
+	    <property name="maxPoolSize" value="100" />   
+	    <!-- 线程池所使用的缓冲队列 -->
+	    <property name="queueCapacity" value="25" /> 
+	</bean>
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix">
+			<value>/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+</beans>
