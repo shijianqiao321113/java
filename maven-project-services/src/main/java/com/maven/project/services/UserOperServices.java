@@ -16,5 +16,12 @@ public interface UserOperServices {
 	 */
 	public void login(HttpServletRequest request,HttpServletResponse response);
 	
-	public void aa(String str);
+	/**
+	* @Title: for_10
+	* @Description: 循环
+	* @param 
+	* @return void
+	* @throws
+	 */
+	public void for_10();
 }
